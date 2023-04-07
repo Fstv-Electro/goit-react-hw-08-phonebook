@@ -1,52 +1,52 @@
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Layout } from "components/Layout";
+import { PrivateRoute } from "components/PrivateRoute";
+import { RestrictedRoute } from 'components/RestrictedRoute';
+import { useAuth } from "hooks";
+import { useEffect, lazy } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Routes } from 'react-router-dom';
+import { refreshUser } from "redux/auth/operations";
 
-import { Container, Title } from './App.styled';
-import ContactForm from 'components/ContactForm/ContactForm';
-import ContactList from 'components/Contacts/ContactList';
-import Filter from 'components/Filter';
-import Section from 'components/Section';
-import { useEffect } from 'react';
-import * as contactsOperations from 'redux/operations';
-import * as selectors from 'redux/selectors';
+const HomePage = lazy(() => import('../../pages/Home'));
+const RegisterPage = lazy(() => import('../../pages/Register'));
+const LoginPage = lazy(() => import('../../pages/Login'));
+const ContactsPage = lazy(() => import('../../pages/Contacts'));
 
-
-const App = ({title}) => {
+const App = () => {
   const dispatch = useDispatch();
-  const items = useSelector(selectors.getContacts);
-  const isLoading = useSelector(selectors.getLoadStatus);
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
-    dispatch(contactsOperations.fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <Container>
-      <Title>{title}</Title>
-      <Section>
-        <ContactForm/>
-      </Section>
-
-      <Section title="Contacts">
-        {!isLoading && items.length === 0 && (
-          <div style={{ color: 'black', fontSize: '20px'}}>U don't have contacts yet!</div>
-        )}
-        {items.length > 0 && (
-          <>
-            <Filter />
-            <ContactList />
-          </>
-        )}
-      </Section>
-      <ToastContainer autoClose={ 3000 } theme={'colored'} />
-    </Container>
+  return isRefreshing ? (
+    <div>Loading...</div>
+  ) : (
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={<RestrictedRoute
+            redirectedTo='/contacts'
+            component={<RegisterPage />} />}
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectedTo='/contacts' component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
 
 export default App;
-
-App.propTypes = {
-  title: PropTypes.string,
-};

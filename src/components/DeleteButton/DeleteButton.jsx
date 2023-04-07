@@ -16,6 +16,7 @@ const DeleteButton = ({
             color={color}
             type={type}
             onClick={onClick}
+            {...allyProps}
         >
             {children}
         </ButtonStyle>

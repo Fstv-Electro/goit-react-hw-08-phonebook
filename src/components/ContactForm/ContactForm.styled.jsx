@@ -11,7 +11,7 @@ export const Input = styled(Field)`
     padding: 8px;
     width: 200px;
     outline: none;
-    border: 1px solid #2a2a2a;
+    border: 1px solid #e986b1;
     border-radius: 4px;
 `;
 

@@ -5,8 +5,8 @@ import {
     FormField, Input, Label
 } from './ContactForm.styled';
 import Button from 'components/Button';
-import * as selectors from 'redux/selectors';
-import * as contactsOperations from 'redux/operations';
+import * as selectors from 'redux/contacts/selectors';
+import * as contactsOperations from 'redux/contacts/operations';
 import { toast } from 'react-toastify';
 
 export const ContactForm = () => {

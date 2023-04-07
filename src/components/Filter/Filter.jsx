@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteButton from "components/DeleteButton";
 import { Input, FilterWrapper, Label } from "./Filter.styled";
-import * as selectors from "redux/selectors";
-import { setFilter, resetFilter } from "redux/filterSlice";
+import * as selectors from "redux/contacts/selectors";
+import { setFilter, resetFilter } from "redux/contacts/filterSlice";
 
 const Filter = () => {
     const dispatch = useDispatch();

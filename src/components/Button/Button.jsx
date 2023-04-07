@@ -7,6 +7,7 @@ const Button = ({
     title = '',
     onClick = () => null,
     children = null,
+    ...allyProps
 }) => {
     return (
         <FormButton type={type} onClick={onClick}>

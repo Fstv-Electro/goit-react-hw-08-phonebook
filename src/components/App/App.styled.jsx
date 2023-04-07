@@ -10,6 +10,9 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+    text-align: center;
+    margin-top: 8px;
+    padding: 8px;
     font-weight: bold;    
     font-size: 24px;
 `;
